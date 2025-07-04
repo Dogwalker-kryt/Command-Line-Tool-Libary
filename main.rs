@@ -1,10 +1,9 @@
-use std::path::Path; // Für Dateioperationen
-use std::fs; // Für Dateioperationen
-use sha2::{Sha256, Digest}; // Für SHA-256 Hash
+use std::path::Path; // for fileoperation
+use std::fs; // also this
+use sha2::{Sha256, Digest}; // for SHA-256 Hash
 
 // =============================
-// Einfache Taschenrechner-Funktion für Grundrechenarten
-// Fragt zwei Zahlen und eine Rechenoperation ab und gibt das Ergebnis aus
+// Basic calculator
 // =============================
 fn rechner() {
     println!("------------------ Calculator -----------------");
@@ -35,7 +34,6 @@ fn rechner() {
     std::io::stdin().read_line(&mut op).expect("[Error] Failed to read input");
     let op = op.trim();
 
-    // Berechnung je nach Operator
     let result = match op {
         "+" => num1 + num2,
         "-" => num1 - num2,
@@ -57,8 +55,8 @@ fn rechner() {
 }
 
 // =============================
-// SHA-256 Hash Funktion für beliebigen Text
-// Fragt einen Text ab und gibt den SHA-256 Hashwert aus
+// SHA-256 Hash funktion
+// enter text and it gives you the sha-256
 // =============================
 fn sha256() {
     println!("------------------ SHA-256 Hash -----------------");
@@ -66,15 +64,14 @@ fn sha256() {
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).expect("[Error] Failed to read input");
     let input = input.trim();
-    let mut hasher = Sha256::new(); // Hasher initialisieren
-    hasher.update(input); // Text in den Hasher geben
-    let result = hasher.finalize(); // Hash berechnen
-    println!("SHA-256: {:x}", result); // Hashwert ausgeben
+    let mut hasher = Sha256::new(); // Hasher initializer
+    hasher.update(input); // input in hasher
+    let result = hasher.finalize(); // Hash computing
+    println!("SHA-256: {:x}", result); // Hash output
 }
 
 // =============================
-// Funktion zum Entfernen einer Datei mit Sicherheitsabfrage
-// Fragt nach dem Dateipfad und einer Bestätigung, löscht dann die Datei
+// remove funktion
 // =============================
 fn remove_file() {
     println!("[Remove_file] Enter the file path to remove:");
@@ -87,9 +84,9 @@ fn remove_file() {
     std::io::stdin().read_line(&mut confirmation).expect("[Error] Failed to read confirmation or an unexpected error occurred!");
     let confirmation = confirmation.trim().to_lowercase();
     if confirmation == "yes" {
-        // Prüfe, ob die Datei existiert
+        // cheks if path exists
         if Path::new(file_path).exists() {
-            // Versuche, die Datei zu löschen
+            // trys to delet path
             match fs::remove_file(file_path) {
                 Ok(_) => println!("[Remove_file] File '{}' has been removed", file_path),
                 Err(_) => println!("[Remove_file] Failed to remove file '{}'", file_path),
@@ -102,13 +99,11 @@ fn remove_file() {
     } else {
         println!("[Error] Invalid confirmation input or an unexpected error occurred!");
     }
-    // Nach Abschluss zurück ins Hauptmenü
     main();
 }
 
 // =============================
-// Zeigt Informationen über das Tool an
-// Gibt Name, Version, Beschreibung, Autor und Lizenz aus
+// shows info about his projekt
 // =============================
 fn info() {
     println!("Info about this library");
@@ -124,11 +119,10 @@ fn info() {
 }
 
 // =============================
-// Würfelfunktion: Simuliert das Würfeln mit beliebig vielen Würfeln
-// Fragt die Anzahl der Würfel ab und gibt für jeden Wurf eine Zufallszahl zwischen 1 und 6 aus
+// die funktion
 // =============================
-fn wuerfel() {
-    use rand::Rng; // Importiere Rng für Zufallszahlen
+fn die() {
+    use rand::Rng; 
     println!("------------------ Dice -----------------");
     println!("How many dice do you want to roll?");
     let mut anzahl = String::new();
@@ -140,36 +134,35 @@ fn wuerfel() {
             return;
         }
     };
-    let mut rng = rand::thread_rng(); // Zufallsgenerator initialisieren
+    let mut rng = rand::thread_rng();
     println!("Results:");
     for i in 1..=anzahl {
-        let wurf = rng.gen_range(1..=6); // Würfeln (1 bis 6)
-        println!("Die {}: {}", i, wurf); // Ergebnis ausgeben
+        let wurf = rng.gen_range(1..=6); 
+        println!("Die {}: {}", i, wurf); 
     }
 }
 
 // -----------------------------
-// Hauptfunktion: Startet das CLI-Tool und zeigt das Menü an
-// Hier werden die Benutzereingaben verarbeitet und die passenden Funktionen aufgerufen
+// Main funktion used as menu
 // -----------------------------
 fn main() {
     println!("Welcome to a library of CLI tools!");
     println!("You can choose from the following options:");
     println!("----------------- CLI Tools Menu -----------------");
     println!("Enter:");
-    println!("'cal' for calculator"); // Startet den Taschenrechner
-    println!("'sha256' for SHA-256 hash"); // Startet die SHA-256 Hashfunktion
-    println!("'remove' for removing files"); // Startet das Datei-Löschtool
-    println!("'info' for information"); // Zeigt Informationen über das Tool an
-    println!("'wuerfel' for rolling a die"); // Startet die Würfelfunktion
+    println!("'cal' for calculator"); 
+    println!("'sha256' for SHA-256 hash"); 
+    println!("'remove' for removing files"); 
+    println!("'info' for information"); 
+    println!("'die' for rolling a die"); 
     let mut menu_input = String::new();
     std::io::stdin().read_line(&mut menu_input).expect("[Error] Failed to read input");
     match menu_input.trim() {
-        "cal" => rechner(),      // Rechner-Funktion
-        "sha256" => sha256(),   // SHA-256 Hashfunktion
-        "remove" => remove_file(), // Datei entfernen
-        "info" => info(),       // Info anzeigen
-        "wuerfel" => wuerfel(), // Würfelfunktion
-        _ => println!("[Error] Invalid option or unexpected error occurred!"), // Fehlerausgabe
+        "cal" => rechner(),      
+        "sha256" => sha256(),   
+        "remove" => remove_file(),
+        "info" => info(),       
+        "die" => die(), 
+        _ => println!("[Error] Invalid option or unexpected error occurred!"), 
     }
 }
