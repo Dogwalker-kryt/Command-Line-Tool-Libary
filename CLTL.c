@@ -7,7 +7,9 @@ int main() {
     int die();
     int remove_file();
     int info();
+    // these are here becasue i didnt declared the funtktions below the main funktion
 
+    
     // menu
     printf("--------------- Options ---------------\n");
     printf("1. Calculator\n");
@@ -17,7 +19,7 @@ int main() {
     printf("---------------------------------------\n");
 
     scanf("%d", &menu_input);  
-    switch (menu_input) {
+    switch (menu_input) { // the switch case could also be replaced with an if else statement 
         case 1:
             calculator();
             break;
